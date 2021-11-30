@@ -1,0 +1,63 @@
+﻿@model ICollection<MusicStore.Models.Album>
+
+<div class="container-fluid mt-xl-n1">
+    <table class="table table-border table-hover">
+        <thead >
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Artist
+                </th>
+                <th>
+                    Genre
+                </th>
+                <th>
+                    Year of publish
+                </th>
+                <th>
+                    Date of publish
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var album in Model)
+            {
+            <tr class="table__row">
+                <td>@album.Title</td>
+                <td>@album.Artist.Name</td>
+                <td>@album.GenreId</td>
+                <td>@album.YearOfPublish</td>
+                <td>@album.DateOfPublish</td>
+                <td>@album.Amount</td>
+                <td>@album.Price</td>
+                <td>
+                    <a class="icon-margin" asp-action="Details" asp-route-id="@album.Id">
+                        <i class="bi bi-info-square " title="Details"></i>
+                    </a>
+                    <a class="icon-margin" asp-action="Edit" asp-route-id="@album.Id">
+                        <i class="bi bi-pencil-square" title="Edit album"></i>
+                    </a>
+                    <a class="icon-margin" asp-action="Delete" asp-route-id="@album.Id">
+                        <i class="bi bi-trash" title="Delete album"></i>
+                    </a>
+
+                </td>
+
+            </tr>
+       
+            }
+        </tbody>
+    </table>
+</div>
