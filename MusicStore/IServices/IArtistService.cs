@@ -8,6 +8,8 @@ namespace MusicStore.IServices
 {
     public interface IArtistService
     {
+        public ICollection<Artist> GetArtists();
+
         public Artist GetArtist(int? id);
     }
 }

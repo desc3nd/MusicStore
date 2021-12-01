@@ -27,7 +27,7 @@ namespace MusicStore.Services
         {
             ICollection<Album> albums = new List<Album>();
             //tworze zapytanie w sqlu query
-            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, SwearWords.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id JOIN SwearWords ON Album.SwearWordsId = SwearWords.Id;";
+            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id;";
             // adapter służy do wykonania komendy sqlowej
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
             //tworze nowa tabele DataTable  służy do przechowywania danych tabelranych z sqla
@@ -46,6 +46,7 @@ namespace MusicStore.Services
                 var album = new Album();
                 album.Id = int.Parse(row["Id"].ToString());
                 album.Title = row["Title"].ToString();
+                album.ArtistId = int.Parse(row["ArtistId"].ToString());
                 album.Artist = _artistService.GetArtist(int.Parse(row["ArtistId"].ToString()));
                 album.GenreId = int.Parse(row["GenreId"].ToString());
                 album.YearOfPublish = int.Parse(row["YearOfPublish"].ToString());
@@ -53,8 +54,17 @@ namespace MusicStore.Services
                 album.Price = decimal.Parse(row["Price"].ToString());
                 album.Amount = int.Parse(row["Amount"].ToString());
                 album.Description = row["Description"].ToString();
+                album.SwearWords = bool.Parse(row["SwearWords"].ToString());
                 albums.Add(album);
             }
+        }
+        public void Edit(Album album)
+        {
+            _connection.Open();
+            string updateBookQuery = "UPDATE Album SET Title='" + album.Title + "', ArtistId=" + album.ArtistId  + ", GenreId=" + album.GenreId + ", YearOfPublish=" + album.YearOfPublish + ", Price = " + album.Price + ", SwearWords='" + album.SwearWords + "' WHERE Id=" + album.Id + ";";
+            SqlCommand commandInsertBook = new SqlCommand(updateBookQuery, _connection);
+            commandInsertBook.ExecuteNonQuery();
+            _connection.Close();
         }
     }
 }

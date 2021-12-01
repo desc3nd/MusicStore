@@ -14,5 +14,11 @@ namespace MusicStore.IServices
         /// </summary>
         /// <returns></returns>
         public ICollection<Album> GetAlbums();
+
+        /// <summary>
+        /// metoda która edytuje zadany album i zapisuje zmiany w bazie
+        /// </summary>
+        /// <param name="album"></param>
+        public void Edit(Album album);
     }
 }
