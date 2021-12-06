@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Views\Artist\" />
     <Folder Include="Views\Genre\" />
-    <Folder Include="Views\SwearWords\" />
     <Folder Include="Views\Track\" />
   </ItemGroup>
 
