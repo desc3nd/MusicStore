@@ -1,7 +1,23 @@
 ﻿@model ICollection<MusicStore.Models.Album>
 
-<div class="new_album_div">
-    <a type="button" class="btn btn-primary btn-lg" asp-action="Create" asp-controller="Album">Add Album</a>
+<div class="search_album">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+    <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
+    <div>
+        <div class="form-check checkboxes">
+            <input class="form-check-input" type="radio" name="searchRadio" id="Title">
+            <label class="form-check-label" for="Title">
+                Title
+            </label>
+        </div>
+        <div class="form-check checkboxes">
+            <input class="form-check-input" type="radio" name="searchRadio" id="Artist" checked>
+            <label class="form-check-label" for="Artist">
+                Artist
+            </label>
+        </div>
+    </div>
 </div>
 <div class="container-fluid mt-xl-n1">
     <table class="table table-border table-hover">
