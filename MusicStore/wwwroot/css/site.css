@@ -81,7 +81,23 @@ body {
 }
 
 .new_album_div {
-    float: right;
     margin-bottom: 20px;
     margin-top: 10px;
+}
+
+.search_album {
+    display: grid;
+    grid-template-columns: 4fr 1fr 0.75fr;
+    grid-column-gap: 5%;
+    grid-row-gap: 2%;
+    margin: 20px 5% 20px 15%;
+}
+
+.checkboxes {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.log_in_card {
+    width: 30%;
 }
