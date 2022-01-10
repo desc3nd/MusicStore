@@ -23,6 +23,27 @@ namespace MusicStore.Services
             setDataToGenre(table, genres);
             return genres;
         }
+
+        public Genre GetGenre(int id)
+        {
+            var genre = new Genre();
+            string query = "select * from Genre where Genre.Id =  " + id +";";
+            SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            if (table.Rows.Count == 0)
+            {
+                throw new ArgumentNullException();
+            }
+            SetDataRowToGenre(table, genre);
+            return genre;
+        }
+
+        private void SetDataRowToGenre(DataTable table, Genre genre)
+        {
+            genre.Id = int.Parse(table.Rows[0]["Id"].ToString());
+            genre.Name = table.Rows[0]["Name"].ToString();
+        }
         private void setDataToGenre(DataTable table, List<Genre> genres)
         {
             foreach (DataRow row in table.Rows)

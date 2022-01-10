@@ -61,7 +61,7 @@ namespace MusicStore.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Data Source=DESKTOP-LKK9Q74;Database=Music; Trusted_Connection=yes.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Data Source=PLWR-L04060;Database=Music; Trusted_Connection=yes.
         /// </summary>
         internal static string DBConnectionString {
             get {

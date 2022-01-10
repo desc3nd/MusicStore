@@ -36,24 +36,30 @@ namespace MusicStore.Controllers
 
         // GET: AlbumController/Create
         public ActionResult Create()
-        {
+        {            
+            ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
+            ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             return View();
         }
 
         // POST: AlbumController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Album album)
         {
+            ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
+            ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             try
             {
-                return RedirectToAction(nameof(Index));
+                _albumService.AddAlbumWithoutSpotifyAPI(album);
             }
             catch
             {
                 return View();
             }
+            return RedirectToAction(nameof(Index));
         }
+
         //edit ten odpowiada za widok, tzn jeżeli klikniemy edit to otworzy nam się zakładka z widokiem editu i za to odpowiedzialna jest ta metoda
         // GET: AlbumController/Edit/5
         public ActionResult Edit(int? id)

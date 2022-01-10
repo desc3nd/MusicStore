@@ -1,8 +1,6 @@
 ﻿using MusicStore.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace MusicStore.IServices
 {
@@ -10,5 +8,7 @@ namespace MusicStore.IServices
     {
         public ICollection<Genre> GetGenres();
         public void AddGenre(string genre);
+
+        public Genre GetGenre(int id);
     }
 }

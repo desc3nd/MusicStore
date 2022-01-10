@@ -20,5 +20,11 @@ namespace MusicStore.IServices
         /// </summary>
         /// <param name="album"></param>
         public void Edit(Album album);
+
+        /// <summary>
+        /// please add relative comment
+        /// </summary>
+        /// <param name="album"></param>
+        public void AddAlbumWithoutSpotifyAPI(Album album);
     }
 }

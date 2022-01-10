@@ -51,6 +51,7 @@ namespace MusicStore.Services
                 album.ArtistId = int.Parse(row["ArtistId"].ToString());
                 album.Artist = _artistService.GetArtist(int.Parse(row["ArtistId"].ToString()));
                 album.GenreId = int.Parse(row["GenreId"].ToString());
+                album.Genre = _genreService.GetGenre(int.Parse(row["GenreId"].ToString()));
                 album.YearOfPublish = int.Parse(row["YearOfPublish"].ToString());
                 album.DateOfPublish = DateTime.Parse(row["DateOfPublish"].ToString());
                 album.Price = decimal.Parse(row["Price"].ToString());
@@ -63,17 +64,15 @@ namespace MusicStore.Services
         public void Edit(Album album)
         {
             _connection.Open();
-            string updateBookQuery = "UPDATE Album SET Title='" + album.Title + "', ArtistId=" + album.ArtistId  + ", GenreId=" + album.GenreId + ", YearOfPublish=" + album.YearOfPublish + ", Price = " + album.Price + ", SwearWords='" + album.SwearWords + "' WHERE Id=" + album.Id + ";";
+            string updateBookQuery = "UPDATE Album SET Title='" + album.Title + "', ArtistId=" + album.ArtistId  + ", GenreId=" + album.GenreId + ", YearOfPublish=" + album.YearOfPublish + ", Price = " + album.Price + ", SwearWords='" + album.SwearWords + "', Description='" + album.Description + "', Amount='" + album.Amount + "', DateOfPublish='" + album.DateOfPublish.ToString("yyyy-MM-dd") + "' WHERE Id=" + album.Id + ";";
             SqlCommand commandInsertBook = new SqlCommand(updateBookQuery, _connection);
             commandInsertBook.ExecuteNonQuery();
             _connection.Close();
         }
         public void AddAlbumWithoutSpotifyAPI(Album album)
         {
-            _artistService.AddArtist(album.Artist.Name);
-            _genreService.AddGenre(album.Genre.Name);
             _connection.Open();
-            string addAlbumQuery = "INSERT INTO Album (Title,ArtistId,GenreId,YearOfPublish,Price,SwearWords) VALUES (" + album.Title + ", " + album.ArtistId + ", " + album.GenreId + ", " + album.YearOfPublish + ", " + album.Price + ", " + album.SwearWords + ");";
+            string addAlbumQuery = "INSERT INTO Album (Title,ArtistId,GenreId,YearOfPublish,Price,SwearWords,Description,Amount,DateOfPublish) VALUES ('" + album.Title + "', " + album.ArtistId + ", " + album.GenreId + ", " + album.YearOfPublish + ", " + album.Price + ", '" + album.SwearWords + "', '" + album.Description + "', " + album.Amount + ", '" + album.DateOfPublish.ToString("yyyy-MM-dd") +  "');";
             SqlCommand commandInsertAlbum = new(addAlbumQuery, _connection);
             commandInsertAlbum.ExecuteNonQuery();
             _connection.Close();
