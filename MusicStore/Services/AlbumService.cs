@@ -17,10 +17,12 @@ namespace MusicStore.Services
         private readonly SqlConnection _connection = new SqlConnection(Properties.Resources.DBConnectionString);
 
         private readonly IArtistService _artistService;
+        private readonly IGenreService _genreService;
 
-        public AlbumService(IArtistService artistService)
+        public AlbumService(IArtistService artistService, IGenreService genreService)
         {
             _artistService = artistService;
+            _genreService = genreService;
         }
 
         public ICollection<Album> GetAlbums()
@@ -66,5 +68,48 @@ namespace MusicStore.Services
             commandInsertBook.ExecuteNonQuery();
             _connection.Close();
         }
+        public void AddAlbumWithoutSpotifyAPI(Album album)
+        {
+            _artistService.AddArtist(album.Artist.Name);
+            _genreService.AddGenre(album.Genre.Name);
+            _connection.Open();
+            string addAlbumQuery = "INSERT INTO Album (Title,ArtistId,GenreId,YearOfPublish,Price,SwearWords) VALUES (" + album.Title + ", " + album.ArtistId + ", " + album.GenreId + ", " + album.YearOfPublish + ", " + album.Price + ", " + album.SwearWords + ");";
+            SqlCommand commandInsertAlbum = new(addAlbumQuery, _connection);
+            commandInsertAlbum.ExecuteNonQuery();
+            _connection.Close();
+
+        }
+
+        public void DeleteAlbum(string title)
+        {
+            //tu jeszcze dopisac usuwanie artystow i gatunkow jesli nie ma albumu z nimi
+            string deleteAlbumQuery = "DELETE FROM Album WHERE Title='" + title + "';";
+            _connection.Open();
+            SqlCommand deleteAlbumCommand = new SqlCommand(deleteAlbumQuery, _connection);
+            deleteAlbumCommand.ExecuteNonQuery();
+            _connection.Close();
+
+        }
+        public ICollection<Album> SearchAlbumsByTitle(string title)
+        {
+            ICollection<Album> albums = new List<Album>();
+            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Album.Title=" + title + ";";
+            SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            setDataRowToAlbum(table, albums);
+            return albums;
+        }
+        public ICollection<Album> SearchAlbumsByArtist(string artist)
+        {
+            ICollection<Album> albums = new List<Album>();
+            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Album.Title=" + artist + ";";
+            SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            setDataRowToAlbum(table, albums);
+            return albums;
+        }
     }
 }
+

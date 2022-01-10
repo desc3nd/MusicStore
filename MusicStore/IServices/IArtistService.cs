@@ -11,5 +11,6 @@ namespace MusicStore.IServices
         public ICollection<Artist> GetArtists();
 
         public Artist GetArtist(int? id);
+        public void AddArtist(string artist);
     }
 }

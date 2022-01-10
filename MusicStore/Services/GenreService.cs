@@ -33,5 +33,26 @@ namespace MusicStore.Services
                 genres.Add(genre);
             }
         }
+        public void AddGenre(string genre)
+        {
+            if (CheckIfGenreInDatabase(genre) == 0)
+            {
+                String addGenreQuery = "INSERT INTO Genre VALUES('" + genre + "');";
+                _connection.Open();
+                SqlCommand addGenreCommand = new SqlCommand(addGenreQuery, _connection);
+                addGenreCommand.ExecuteNonQuery();
+                _connection.Close();
+            }
+
+        }
+        public int CheckIfGenreInDatabase(String genre)
+        {
+            string queryCheckGenre = "SELECT COUNT(*) FROM Genre WHERE Genre.Name='" + genre + "';";
+            _connection.Open();
+            SqlCommand commandCheckGenre = new SqlCommand(queryCheckGenre, _connection);
+            int numberOfGenres = (int)commandCheckGenre.ExecuteScalar();
+            _connection.Close();
+            return numberOfGenres;
+        }
     }
 }

@@ -20,10 +20,10 @@ namespace MusicStore.Services
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
             DataTable table = new DataTable();
             adapter.Fill(table);
-            setDataToArtists(table, artists);
+            SetDataToArtists(table, artists);
             return artists;
         }
-        private void setDataToArtists(DataTable table, List<Artist> artists)
+        private void SetDataToArtists(DataTable table, List<Artist> artists)
         {
             foreach(DataRow row in table.Rows) {
             var artist = new Artist();
@@ -45,15 +45,35 @@ namespace MusicStore.Services
             {
                 throw new ArgumentNullException();
             }
-            setDataRowToArtist(table, artist);
+            SetDataRowToArtist(table, artist);
             return artist;
         }
-        private void setDataRowToArtist(DataTable table, Artist artist)
+        private void SetDataRowToArtist(DataTable table, Artist artist)
         {
             artist.Id = int.Parse(table.Rows[0]["Id"].ToString());
             artist.Name = table.Rows[0]["Name"].ToString();
             artist.Description = table.Rows[0]["Description"].ToString();
             artist.Country = table.Rows[0]["Country"].ToString();
+        }
+        public void AddArtist(String artist)
+        {
+            if (CheckIfArtistInDatabase(artist) == 0)
+            {
+                String addArtistQuery = "INSERT INTO Artist VALUES('" + artist + "');";
+                _connection.Open();
+                SqlCommand addArtistCommand = new SqlCommand(addArtistQuery, _connection);
+                addArtistCommand.ExecuteNonQuery();
+                _connection.Close();
+            }
+        }
+        public int CheckIfArtistInDatabase(String artist)
+        {
+            string queryCheckArtist = "SELECT COUNT(*) FROM Artist WHERE Artist.Name='" + artist + "';";
+            _connection.Open();
+            SqlCommand commandCheckArtist = new SqlCommand(queryCheckArtist, _connection);
+            int numberOfArtists = (int)commandCheckArtist.ExecuteScalar();
+            _connection.Close();
+            return numberOfArtists;
         }
     }
 }
