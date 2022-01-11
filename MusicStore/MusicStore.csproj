@@ -8,16 +8,12 @@
   <ItemGroup>
     <Compile Remove="Views\Artist\**" />
     <Compile Remove="Views\Genre\**" />
-    <Compile Remove="Views\Track\**" />
     <Content Remove="Views\Artist\**" />
     <Content Remove="Views\Genre\**" />
-    <Content Remove="Views\Track\**" />
     <EmbeddedResource Remove="Views\Artist\**" />
     <EmbeddedResource Remove="Views\Genre\**" />
-    <EmbeddedResource Remove="Views\Track\**" />
     <None Remove="Views\Artist\**" />
     <None Remove="Views\Genre\**" />
-    <None Remove="Views\Track\**" />
   </ItemGroup>
 
   <ItemGroup>

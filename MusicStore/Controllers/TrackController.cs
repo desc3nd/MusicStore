@@ -22,8 +22,11 @@ namespace MusicStore.Controllers
         }
 
         // GET: TrackController/Create
-        public ActionResult Create()
+        [HttpGet]
+        [Route("Track/Create/{albumName}")]
+        public ActionResult Create(string albumName)
         {
+            ViewData["AlbumName"] = albumName;
             return View();
         }
 

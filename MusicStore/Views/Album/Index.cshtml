@@ -1,11 +1,10 @@
 ﻿@model ICollection<MusicStore.Models.Album>
-
 <div class="search_album">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-    <button class="btn btn-outline-primary" type="submit">Search</button>
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="dupa" />
+    <a class="btn btn-outline-primary" asp-action="Search" asp-controller="Album" asp-route-position="tu musi być jeden z parametrów z value, jeszcze nie wiem jak go zrobić">Search</a>
     <div>
         <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
-        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Artist</a>
+        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Artist">Add Artist</a>
     </div>
 
     <div>

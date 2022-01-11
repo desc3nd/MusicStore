@@ -121,5 +121,12 @@ namespace MusicStore.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        [Route("/Album/Search/{position}")]
+        public ActionResult Search(string position)
+        {
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
