@@ -15,11 +15,13 @@ namespace MusicStore.Controllers
         private readonly IAlbumService _albumService;
         private readonly IArtistService _artistService;
         private readonly IGenreService _genreService;
-        public AlbumController(IAlbumService albumService, IArtistService artistService, IGenreService genreService)
+        private readonly ITrackService _trackService;
+        public AlbumController(IAlbumService albumService, IArtistService artistService, IGenreService genreService, ITrackService trackService)
         {
             _albumService = albumService;
             _artistService = artistService;
             _genreService = genreService;
+            _trackService = trackService;
         }
         // GET: AlbumController
         public ActionResult Index()
@@ -70,6 +72,7 @@ namespace MusicStore.Controllers
             }
             //chwilowo robie to w ten sposób. Poprawnie byłoby wykorzystać tutaj metodę zwracającą pojedyńczy album, zatem: var album = _albumService.GetAlbum(id);
             var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == id).ToList();
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name", album.ArtistId);
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name", album.GenreId);
             return View(album);

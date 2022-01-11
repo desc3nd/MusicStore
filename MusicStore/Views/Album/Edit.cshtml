@@ -67,6 +67,30 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="col">
+                    <h4>Tracks</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Time</th>
+                                <th>Swear words</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var track in Model.Tracks)
+                                    {
+                                        <td>@track.Title</td>
+                                        <td>@track.Time.ToString("hh:mm:ss")</td>
+                                        <td>@track.SwearWords</td>
+                                    }
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="card-footer">
             <input type="hidden" asp-for="Id" />

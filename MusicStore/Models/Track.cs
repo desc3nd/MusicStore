@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicStore.Models
 {
@@ -15,12 +12,15 @@ namespace MusicStore.Models
 
         public Artist Artist { get; set; }
 
+        public int AlbumId { get; set; }
+
         public int GenreId { get; set; }
 
         public Genre Genre { get; set; }    
 
-        public DateTime Date { get; set; }
-        public string Duration { get; set; }
+        public DateTime Time { get; set; }
+
+        public bool SwearWords { get; set; }
 
     }
 }

@@ -61,18 +61,20 @@ namespace MusicStore.Services
                 albums.Add(album);
             }
         }
+
         public void Edit(Album album)
         {
             _connection.Open();
-            string updateBookQuery = "UPDATE Album SET Title='" + album.Title + "', ArtistId=" + album.ArtistId  + ", GenreId=" + album.GenreId + ", YearOfPublish=" + album.YearOfPublish + ", Price = " + album.Price + ", SwearWords='" + album.SwearWords + "', Description='" + album.Description + "', Amount='" + album.Amount + "', DateOfPublish='" + album.DateOfPublish.ToString("yyyy-MM-dd") + "' WHERE Id=" + album.Id + ";";
+            string updateBookQuery = "UPDATE Album SET Title='" + album.Title + "', ArtistId=" + album.ArtistId + ", GenreId=" + album.GenreId + ", YearOfPublish=" + album.YearOfPublish + ", Price = " + album.Price + ", SwearWords='" + album.SwearWords + "', Description='" + album.Description + "', Amount='" + album.Amount + "', DateOfPublish='" + album.DateOfPublish.ToString("yyyy-MM-dd") + "' WHERE Id=" + album.Id + ";";
             SqlCommand commandInsertBook = new SqlCommand(updateBookQuery, _connection);
             commandInsertBook.ExecuteNonQuery();
             _connection.Close();
         }
+
         public void AddAlbumWithoutSpotifyAPI(Album album)
         {
             _connection.Open();
-            string addAlbumQuery = "INSERT INTO Album (Title,ArtistId,GenreId,YearOfPublish,Price,SwearWords,Description,Amount,DateOfPublish) VALUES ('" + album.Title + "', " + album.ArtistId + ", " + album.GenreId + ", " + album.YearOfPublish + ", " + album.Price + ", '" + album.SwearWords + "', '" + album.Description + "', " + album.Amount + ", '" + album.DateOfPublish.ToString("yyyy-MM-dd") +  "');";
+            string addAlbumQuery = "INSERT INTO Album (Title,ArtistId,GenreId,YearOfPublish,Price,SwearWords,Description,Amount,DateOfPublish) VALUES ('" + album.Title + "', " + album.ArtistId + ", " + album.GenreId + ", " + album.YearOfPublish + ", " + album.Price + ", '" + album.SwearWords + "', '" + album.Description + "', " + album.Amount + ", '" + album.DateOfPublish.ToString("yyyy-MM-dd") + "');";
             SqlCommand commandInsertAlbum = new(addAlbumQuery, _connection);
             commandInsertAlbum.ExecuteNonQuery();
             _connection.Close();
@@ -89,6 +91,7 @@ namespace MusicStore.Services
             _connection.Close();
 
         }
+
         public ICollection<Album> SearchAlbumsByTitle(string title)
         {
             ICollection<Album> albums = new List<Album>();
@@ -99,6 +102,7 @@ namespace MusicStore.Services
             setDataRowToAlbum(table, albums);
             return albums;
         }
+
         public ICollection<Album> SearchAlbumsByArtist(string artist)
         {
             ICollection<Album> albums = new List<Album>();
