@@ -27,6 +27,9 @@ namespace MusicStore.Controllers
         public ActionResult Index()
         {
             var albums = _albumService.GetAlbums();
+            _artistService.AddArtist(new Artist() { Country = "Poland", Description = "chuj", Id = 23, Name = "ignacy" });
+            _artistService.DeleteArtist(23);
+            //tu wywołaj badawcza metode
             return View(albums);
         }
 

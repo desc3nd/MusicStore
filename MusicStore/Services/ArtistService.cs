@@ -55,20 +55,39 @@ namespace MusicStore.Services
             artist.Description = table.Rows[0]["Description"].ToString();
             artist.Country = table.Rows[0]["Country"].ToString();
         }
-        public void AddArtist(String artist)
+        public void AddArtist(Artist artist)
         {
-            if (CheckIfArtistInDatabase(artist) == 0)
+            if (artist != null && CheckIfArtistInDatabase(artist.Id) == 0)
             {
-                String addArtistQuery = "INSERT INTO Artist VALUES('" + artist + "');";
+                String addArtistQuery = "INSERT INTO Artist (Name, Country, Description) VALUES('" + artist.Name + "','" + artist.Country + "','" + artist.Description + "');";
                 _connection.Open();
                 SqlCommand addArtistCommand = new SqlCommand(addArtistQuery, _connection);
                 addArtistCommand.ExecuteNonQuery();
                 _connection.Close();
             }
         }
-        public int CheckIfArtistInDatabase(String artist)
+
+        public void DeleteArtist(int id)
         {
-            string queryCheckArtist = "SELECT COUNT(*) FROM Artist WHERE Artist.Name='" + artist + "';";
+            string deleteArtistQuery = "DELETE FROM Artist WHERE Id='" + id + "';";
+            _connection.Open();
+            SqlCommand deleteArtistCommand = new SqlCommand(deleteArtistQuery, _connection);
+            deleteArtistCommand.ExecuteNonQuery();
+            _connection.Close();
+
+        }
+        public void Edit(Artist artist)
+        {
+            _connection.Open();
+            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country=" + artist.Country + ", Description=" + artist.Description + ",' WHERE Id=" + artist.Id + ";";
+            SqlCommand commandInsertBook = new SqlCommand(updateArtistQuery, _connection);
+            commandInsertBook.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        public int CheckIfArtistInDatabase(int id)
+        {
+            string queryCheckArtist = "SELECT COUNT(*) FROM Artist WHERE Artist.Id='" + id + "';";
             _connection.Open();
             SqlCommand commandCheckArtist = new SqlCommand(queryCheckArtist, _connection);
             int numberOfArtists = (int)commandCheckArtist.ExecuteScalar();
@@ -76,4 +95,4 @@ namespace MusicStore.Services
             return numberOfArtists;
         }
     }
-}
+}// usunac i edytowac 
