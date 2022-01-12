@@ -33,7 +33,7 @@ namespace MusicStore
             services.AddSingleton<ITrackService, TrackService>();
             services.AddSingleton<IGenreService, GenreService>();
             services.AddSingleton<ISwearWordsService, SwearWordsService>();
-            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IAccountService, AccountService>();
 
             services.AddHttpClient();
             #endregion

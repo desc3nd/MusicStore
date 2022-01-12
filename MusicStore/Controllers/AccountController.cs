@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Controllers
 {
-    public class UserController : Controller
+    public class AccountController : Controller
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IAccountService _userService;
+        public AccountController(IAccountService userService)
         {
             _userService = userService;
         }
@@ -20,6 +20,21 @@ namespace MusicStore.Controllers
         // GET: UserController
         public ActionResult Index()
         {
+            ViewData["IsAccountInDB"] = _userService.IsAccountInDB();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(Account account)
+        {
+            ViewData["IsAccountInDB"] = _userService.IsAccountInDB();
+            if (_userService.LogIn(account))
+            {
+                return RedirectToAction(nameof(Index),"Album");
+            }
+            ViewData["InvalidLogin"] = "Invalid login or password";
+
             return View();
         }
 
@@ -32,16 +47,21 @@ namespace MusicStore.Controllers
         // GET: UserController/Create
         public ActionResult Create()
         {
+            if (_userService.IsAccountInDB()) 
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
 
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(User user)
+        public ActionResult Create(Account account)
         {
-                _userService.AddUser(user);
-                return RedirectToAction(nameof(Index));
+                _userService.AddAccuount(account);
+                return RedirectToAction(nameof(Index), "Album");
+           
         }
 
         // GET: UserController/Edit/5
