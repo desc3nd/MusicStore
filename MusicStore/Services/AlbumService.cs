@@ -81,10 +81,10 @@ namespace MusicStore.Services
 
         }
 
-        public void DeleteAlbum(string title)
+        public void DeleteAlbum(int id)
         {
             //tu jeszcze dopisac usuwanie artystow i gatunkow jesli nie ma albumu z nimi
-            string deleteAlbumQuery = "DELETE FROM Album WHERE Title='" + title + "';";
+            string deleteAlbumQuery = "DELETE FROM Album WHERE Id='" + id + "';";
             _connection.Open();
             SqlCommand deleteAlbumCommand = new SqlCommand(deleteAlbumQuery, _connection);
             deleteAlbumCommand.ExecuteNonQuery();
@@ -95,7 +95,7 @@ namespace MusicStore.Services
         public ICollection<Album> SearchAlbumsByTitle(string title)
         {
             ICollection<Album> albums = new List<Album>();
-            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Album.Title=" + title + ";";
+            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Album.Title='" + title + "';";
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
             DataTable table = new DataTable();
             adapter.Fill(table);
@@ -106,7 +106,7 @@ namespace MusicStore.Services
         public ICollection<Album> SearchAlbumsByArtist(string artist)
         {
             ICollection<Album> albums = new List<Album>();
-            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Album.Title=" + artist + ";";
+            string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id WHERE Artist.Name='" + artist + "';";
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
             DataTable table = new DataTable();
             adapter.Fill(table);

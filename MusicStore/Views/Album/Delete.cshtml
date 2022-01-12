@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model MusicStore.Models.Album
+
 @{
+    ViewData["Title"] = "Delete";
 }
+
+<div class="card" role="region">
+    <div class="card-header">
+        <h2>
+            Are you shure you want to delete @Model.Title? 
+        </h2>
+    </div>
+    <form asp-action="Delete" asp-controller="Album">
+        <div class="card-body">
+            *Notice that this method is irreversible
+        </div>
+        <div class="card-footer">
+            <button type="submit" value="Yes, delete" class="btn btn-danger">
+                Yes, delete
+            </button>
+            <a asp-action="Index" asp-controller="Album" class="btn btn-primary" line-height: 40px"> Cancel</a>
+        </div>
+    </form>
+</div>

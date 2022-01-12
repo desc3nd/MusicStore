@@ -26,5 +26,25 @@ namespace MusicStore.IServices
         /// </summary>
         /// <param name="album"></param>
         public void AddAlbumWithoutSpotifyAPI(Album album);
+
+        /// <summary>
+        /// zwraca wszystkie albumy o określonym tytule
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public ICollection<Album> SearchAlbumsByTitle(string title);
+
+        /// <summary>
+        /// zwraca wszystkie albumy o określonym artyście
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <returns></returns>
+        public ICollection<Album> SearchAlbumsByArtist(string artist);
+
+        /// <summary>
+        /// Usuwa album o określonym id z db
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteAlbum(int id);
     }
 }

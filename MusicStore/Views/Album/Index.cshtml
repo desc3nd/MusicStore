@@ -1,27 +1,25 @@
 ﻿@model ICollection<MusicStore.Models.Album>
+@using (Html.BeginForm("Index", "Album"))
+{
 <div class="search_album">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="dupa" />
-    <a class="btn btn-outline-primary" asp-action="Search" asp-controller="Album" asp-route-position="tu musi być jeden z parametrów z value, jeszcze nie wiem jak go zrobić">Search</a>
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchText" name="searchText" />
+    <button class="btn btn-outline-primary" type="submit">Search</button>
     <div>
-        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
-        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Artist">Add Artist</a>
+        <div>
+            <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
+        </div>
+        <div class="mt-2">
+            <a type="button" class="btn btn-primary" asp-action="Index" asp-controller="Artist">Artists</a>
+        </div>
     </div>
 
     <div>
-        <div class="form-check checkboxes">
-            <input class="form-check-input" type="radio" name="searchRadio" id="Title">
-            <label class="form-check-label" for="Title">
-                Title
-            </label>
-        </div>
-        <div class="form-check checkboxes">
-            <input class="form-check-input" type="radio" name="searchRadio" id="Artist" checked>
-            <label class="form-check-label" for="Artist">
-                Artist
-            </label>
-        </div>
+        @Html.RadioButton("option", "title", true) <span>Title</span>
+        @Html.RadioButton("option", "artist") <span>Artist</span>
+
     </div>
 </div>
+}
 <div class="container-fluid mt-xl-n1">
     <table class="table table-border table-hover">
         <thead >
