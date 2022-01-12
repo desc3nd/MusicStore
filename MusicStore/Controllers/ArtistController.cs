@@ -18,7 +18,8 @@ namespace MusicStore.Controllers
         // GET: ArtistController
         public ActionResult Index()
         {
-            return View();
+            var artists = _artistService.GetArtists();
+            return View(artists);
         }
 
         // GET: ArtistController/Details/5

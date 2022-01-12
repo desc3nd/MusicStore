@@ -24,21 +24,33 @@ namespace MusicStore.Controllers
             _trackService = trackService;
         }
         // GET: AlbumController
-        public ActionResult Index()
+        public ActionResult Index(string searchText, string option)
         {
-            var albums = _albumService.GetAlbums();
+          var albums = !string.IsNullOrEmpty(searchText)? searchAlbums(searchText, option) :_albumService.GetAlbums();
             return View(albums);
+        }
+
+        private ICollection<Album> searchAlbums(string searchText, string option)
+        {
+            return option == "title" ? _albumService.SearchAlbumsByTitle(searchText) : _albumService.SearchAlbumsByArtist(searchText);
         }
 
         // GET: AlbumController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == album.Id).ToList();
+            if(album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
         }
 
         // GET: AlbumController/Create
         public ActionResult Create()
-        {            
+        {
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             return View();
@@ -66,7 +78,7 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Edit/5
         public ActionResult Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -91,12 +103,12 @@ namespace MusicStore.Controllers
             {
                 _albumService.Edit(album);
 
-            }               
+            }
 
             catch
             {
                 return View(album);
-            }            
+            }
             return RedirectToAction(nameof(Index));
 
         }
@@ -104,28 +116,32 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
         }
 
         // POST: AlbumController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Album album)
         {
+            if (id != album.Id)
+            {
+                return NotFound();
+            }
             try
             {
-                return RedirectToAction(nameof(Index));
+                _albumService.DeleteAlbum(id);
             }
             catch
             {
                 return View();
-            }
-        }
-
-        [HttpGet]
-        [Route("/Album/Search/{position}")]
-        public ActionResult Search(string position)
-        {
+            }                
             return RedirectToAction(nameof(Index));
         }
     }

@@ -34,6 +34,7 @@ namespace MusicStore.Services
                 artists.Add(artist);
             }
         }
+
         public Artist GetArtist(int? id)
         {
             Artist artist = new Artist();
@@ -48,6 +49,7 @@ namespace MusicStore.Services
             SetDataRowToArtist(table, artist);
             return artist;
         }
+
         private void SetDataRowToArtist(DataTable table, Artist artist)
         {
             artist.Id = int.Parse(table.Rows[0]["Id"].ToString());
