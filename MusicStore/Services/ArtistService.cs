@@ -81,13 +81,13 @@ namespace MusicStore.Services
         public void Edit(Artist artist)
         {
             _connection.Open();
-            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country=" + artist.Country + ", Description=" + artist.Description + ",' WHERE Id=" + artist.Id + ";";
+            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country=" + artist.Country + ", Description=" + artist.Description + " WHERE Id=" + artist.Id + ";";
             SqlCommand commandInsertBook = new SqlCommand(updateArtistQuery, _connection);
             commandInsertBook.ExecuteNonQuery();
             _connection.Close();
         }
 
-        public int CheckIfArtistInDatabase(int id)
+        private int CheckIfArtistInDatabase(int id)
         {
             string queryCheckArtist = "SELECT COUNT(*) FROM Artist WHERE Artist.Id='" + id + "';";
             _connection.Open();

@@ -51,6 +51,76 @@ namespace MusicStore.Services
                 tracks.Add(track);
             }
         }
+
+        public Track GetTrack(int? id)
+        {
+            Track track = new Track();
+            string query = "SELECT Id, Title, AlbumId, ArtistId, GenreId, SwearWords, Time from Track where id=" + id + ";";
+            SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            if (table.Rows.Count == 0)
+            {
+                throw new ArgumentNullException();
+            }
+            SetDataRowToTrack(table, track);
+            return track;
+        }
+
+        private void SetDataRowToTrack(DataTable table, Track track)
+        {
+            track.Id = int.Parse(table.Rows[0]["Id"].ToString());
+            track.Title = table.Rows[0]["Title"].ToString();
+            track.ArtistId = int.Parse(table.Rows[0]["ArtistId"].ToString());
+            track.AlbumId = int.Parse(table.Rows[0]["AlbumId"].ToString());
+            track.Artist = _artistService.GetArtist(int.Parse(table.Rows[0]["ArtistId"].ToString()));
+            track.GenreId = int.Parse(table.Rows[0]["GenreId"].ToString());
+            track.Genre = _genreService.GetGenre(int.Parse(table.Rows[0]["GenreId"].ToString()));
+            track.Time = DateTime.Parse(table.Rows[0]["Time"].ToString());
+            track.SwearWords = bool.Parse(table.Rows[0]["SwearWords"].ToString());
+        }
+
+        public void AddTrack(Track track)
+        {
+         
+            if (track != null && CheckIfTrackInDatabase(track.Id) == 0)
+            {
+                String addTrackQuery = "INSERT INTO Track (Title, AlbumId, ArtistId, GenreId, Time, SwearWords) VALUES ('" + track.Title + "','" + track.AlbumId + "','" + track.ArtistId + "','" + track.GenreId + "','" + track.Time + "','" + track.SwearWords + "');";
+                _connection.Open();
+                SqlCommand addTrackCommand = new SqlCommand(addTrackQuery, _connection);
+                addTrackCommand.ExecuteNonQuery();
+                _connection.Close();
+            }
+        }
+
+        private int CheckIfTrackInDatabase(int id)
+        {
+            string queryCheckTrack = "SELECT COUNT(*) FROM Track WHERE Track.Id='" + id + "';";
+            _connection.Open();
+            SqlCommand commandCheckTrack = new SqlCommand(queryCheckTrack, _connection);
+            int numberOfTracks = (int)commandCheckTrack.ExecuteScalar();
+            _connection.Close();
+            return numberOfTracks;
+        }
+
+        public void DeleteTrack(int id)
+        {
+            string deleteTrackQuery = "DELETE FROM Track WHERE Id='" + id + "';";
+            _connection.Open();
+            SqlCommand deleteTrackCommand = new SqlCommand(deleteTrackQuery, _connection);
+            deleteTrackCommand.ExecuteNonQuery();
+            _connection.Close();
+
+        }
+
+        public void EditTrack(Track track)
+        {
+            _connection.Open();
+            string updateTrackQuery = "UPDATE Track SET Title='" + track.Title + "', AlbumId=" + track.AlbumId + ", ArtistId=" + track.ArtistId + ", GenreId=" + track.GenreId + ", Time='" + track.Time + "', SwearWords='" + track.SwearWords + "' WHERE Id=" + track.Id + ";";
+            SqlCommand commandInsertBook = new SqlCommand(updateTrackQuery, _connection);
+            commandInsertBook.ExecuteNonQuery();
+            _connection.Close();
+        }
     }
 }
 
