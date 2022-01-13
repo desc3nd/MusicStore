@@ -22,5 +22,7 @@ namespace MusicStore.Models
         [Required]
         public string LoginStatus { get; set; }
 
+        public static bool isLoggedIn { get; set; }
+
     }
 }

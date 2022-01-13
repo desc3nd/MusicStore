@@ -26,14 +26,7 @@ namespace MusicStore.Controllers
         // GET: AlbumController
         public ActionResult Index(string searchText, string option)
         {
-<<<<<<< HEAD
-            var albums = _albumService.GetAlbums();
-            _artistService.AddArtist(new Artist() { Country = "Poland", Description = "chuj", Id = 23, Name = "ignacy" });
-            _artistService.DeleteArtist(23);
-            //tu wywołaj badawcza metode
-=======
-          var albums = !string.IsNullOrEmpty(searchText)? searchAlbums(searchText, option) :_albumService.GetAlbums();
->>>>>>> 24a0e21751f892afd013f6f154c4a27994807445
+            var albums = !string.IsNullOrEmpty(searchText)? searchAlbums(searchText, option) :_albumService.GetAlbums();
             return View(albums);
         }
 

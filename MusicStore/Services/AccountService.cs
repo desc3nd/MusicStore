@@ -63,7 +63,12 @@ namespace MusicStore.Services
             SqlCommand commandCheckAccount = new SqlCommand(getNumberOfAccounts, _connection);
             int numberOfArtists = (int)commandCheckAccount.ExecuteScalar();
             _connection.Close();
-            return numberOfArtists != 0 ? true : false;
+           if(numberOfArtists != 0)
+            {
+                Account.isLoggedIn = true;
+                return true;
+            }
+            return false;
         }
     }
 }

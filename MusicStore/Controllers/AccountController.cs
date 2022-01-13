@@ -11,16 +11,16 @@ namespace MusicStore.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAccountService _userService;
+        private readonly IAccountService _accountService;
         public AccountController(IAccountService userService)
         {
-            _userService = userService;
+            _accountService = userService;
         }
 
         // GET: UserController
         public ActionResult Index()
         {
-            ViewData["IsAccountInDB"] = _userService.IsAccountInDB();
+            ViewData["IsAccountInDB"] = _accountService.IsAccountInDB();
             return View();
         }
 
@@ -28,14 +28,20 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(Account account)
         {
-            ViewData["IsAccountInDB"] = _userService.IsAccountInDB();
-            if (_userService.LogIn(account))
+            ViewData["IsAccountInDB"] = _accountService.IsAccountInDB();
+            if (_accountService.LogIn(account))
             {
                 return RedirectToAction(nameof(Index),"Album");
             }
             ViewData["InvalidLogin"] = "Invalid login or password";
 
             return View();
+        }
+
+        public ActionResult LogOut()
+        {
+            Account.isLoggedIn = false;
+            return RedirectToAction(nameof(Index), "Album");
         }
 
         // GET: UserController/Details/5
@@ -47,7 +53,7 @@ namespace MusicStore.Controllers
         // GET: UserController/Create
         public ActionResult Create()
         {
-            if (_userService.IsAccountInDB()) 
+            if (_accountService.IsAccountInDB()) 
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -59,7 +65,7 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Account account)
         {
-                _userService.AddAccuount(account);
+                _accountService.AddAccuount(account);
                 return RedirectToAction(nameof(Index), "Album");
            
         }
