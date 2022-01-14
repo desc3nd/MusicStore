@@ -26,7 +26,7 @@ namespace MusicStore.Controllers
         // GET: AlbumController
         public ActionResult Index(string searchText, string option)
         {
-            var albums = !string.IsNullOrEmpty(searchText)? searchAlbums(searchText, option) :_albumService.GetAlbums();
+            var albums = !string.IsNullOrEmpty(searchText) ? searchAlbums(searchText, option) : _albumService.GetAlbums();
             return View(albums);
         }
 
@@ -40,7 +40,7 @@ namespace MusicStore.Controllers
         {
             var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
             album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == album.Id).ToList();
-            if(album == null)
+            if (album == null)
             {
                 return NotFound();
             }
@@ -51,6 +51,10 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Create
         public ActionResult Create()
         {
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             return View();
@@ -61,6 +65,10 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Album album)
         {
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             try
@@ -78,7 +86,7 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (id == null || !Account.isLoggedIn)
             {
                 return NotFound();
             }
@@ -95,7 +103,7 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Album album)
         {
-            if (id != album.Id)
+            if (id != album.Id || !Account.isLoggedIn)
             {
                 return NotFound();
             }
@@ -104,7 +112,6 @@ namespace MusicStore.Controllers
                 _albumService.Edit(album);
 
             }
-
             catch
             {
                 return View(album);
@@ -116,6 +123,10 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
             var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
             if (album == null)
             {
@@ -130,7 +141,7 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Album album)
         {
-            if (id != album.Id)
+            if (id != album.Id || !Account.isLoggedIn)
             {
                 return NotFound();
             }
@@ -141,7 +152,7 @@ namespace MusicStore.Controllers
             catch
             {
                 return View();
-            }                
+            }
             return RedirectToAction(nameof(Index));
         }
     }

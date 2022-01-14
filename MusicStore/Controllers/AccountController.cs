@@ -31,7 +31,7 @@ namespace MusicStore.Controllers
             ViewData["IsAccountInDB"] = _accountService.IsAccountInDB();
             if (_accountService.LogIn(account))
             {
-                return RedirectToAction(nameof(Index),"Album");
+                return RedirectToAction(nameof(Index), "Album");
             }
             ViewData["InvalidLogin"] = "Invalid login or password";
 
@@ -44,16 +44,10 @@ namespace MusicStore.Controllers
             return RedirectToAction(nameof(Index), "Album");
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: UserController/Create
         public ActionResult Create()
         {
-            if (_accountService.IsAccountInDB()) 
+            if (_accountService.IsAccountInDB())
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -65,51 +59,10 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Account account)
         {
-                _accountService.AddAccuount(account);
-                return RedirectToAction(nameof(Index), "Album");
-           
+            _accountService.AddAccuount(account);
+            return RedirectToAction(nameof(Index), "Album");
+
         }
 
-        // GET: UserController/Edit/5
-        public ActionResult Edit()
-        {
-            return View();
-        }
-
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

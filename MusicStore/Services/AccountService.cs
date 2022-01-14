@@ -1,13 +1,9 @@
 ﻿using MusicStore.IServices;
 using MusicStore.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicStore.Services
 {
@@ -70,5 +66,6 @@ namespace MusicStore.Services
             }
             return false;
         }
+
     }
 }

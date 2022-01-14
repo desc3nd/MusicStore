@@ -57,7 +57,8 @@ namespace MusicStore.Services
             artist.Description = table.Rows[0]["Description"].ToString();
             artist.Country = table.Rows[0]["Country"].ToString();
         }
-        public void AddArtist(Artist artist)
+
+        public void Create(Artist artist)
         {
             if (artist != null && CheckIfArtistInDatabase(artist.Id) == 0)
             {
@@ -69,7 +70,7 @@ namespace MusicStore.Services
             }
         }
 
-        public void DeleteArtist(int id)
+        public void Delete(int id)
         {
             string deleteArtistQuery = "DELETE FROM Artist WHERE Id='" + id + "';";
             _connection.Open();
@@ -81,7 +82,7 @@ namespace MusicStore.Services
         public void Edit(Artist artist)
         {
             _connection.Open();
-            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country=" + artist.Country + ", Description=" + artist.Description + " WHERE Id=" + artist.Id + ";";
+            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country='" + artist.Country + "', Description='" + artist.Description + "' WHERE Id=" + artist.Id + ";";
             SqlCommand commandInsertBook = new SqlCommand(updateArtistQuery, _connection);
             commandInsertBook.ExecuteNonQuery();
             _connection.Close();

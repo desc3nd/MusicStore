@@ -3,14 +3,14 @@
     <h2 class="card-header">
         @{if (ViewBag.InvalidLogin != null)
             {
-                <span>Log in</span>
+                <span>@ViewBag.InvalidLogin</span>
             }
             else
             {
-                <span>@ViewBag.InvalidLogin</span>
+                <span>Log in</span>
             }
-    }
-</h2>
+        }
+    </h2>
 <form class="card-body" asp-action="Index">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">

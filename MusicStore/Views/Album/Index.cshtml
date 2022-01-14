@@ -5,9 +5,11 @@
     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchText" name="searchText" />
     <button class="btn btn-outline-primary" type="submit">Search</button>
     <div>
+        @if (Account.isLoggedIn) { 
         <div>
             <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
         </div>
+        }
         <div class="mt-2">
             <a type="button" class="btn btn-primary" asp-action="Index" asp-controller="Artist">Artists</a>
         </div>
@@ -66,12 +68,15 @@
                     <a class="icon-margin" asp-action="Details" asp-route-id="@album.Id">
                         <i class="bi bi-info-square " title="Details"></i>
                     </a>
+                    @if (Account.isLoggedIn)
+                    {
                     <a class="icon-margin" asp-action="Edit" asp-route-id="@album.Id">
                         <i class="bi bi-pencil-square" title="Edit album"></i>
                     </a>
                     <a class="icon-margin" asp-action="Delete" asp-route-id="@album.Id">
                         <i class="bi bi-trash" title="Delete album"></i>
                     </a>
+                    }
 
                 </td>
 

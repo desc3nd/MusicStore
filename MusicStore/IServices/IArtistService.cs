@@ -11,11 +11,11 @@ namespace MusicStore.IServices
         public ICollection<Artist> GetArtists();
 
         public Artist GetArtist(int? id);
-        public void AddArtist(Artist artist);
+        public void Create(Artist artist);
 
         public void Edit(Artist artist);
 
-        public void DeleteArtist(int id);
+        public void Delete(int id);
 
     }
 }

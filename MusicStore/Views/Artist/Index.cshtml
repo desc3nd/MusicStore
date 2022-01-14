@@ -1,6 +1,13 @@
 ﻿@model ICollection<MusicStore.Models.Artist>
 
 <a href="/Album">Back to Albums</a>
+@if (Account.isLoggedIn)
+{
+    <div>
+        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Artist">Add Artist</a>
+    </div>
+}
+
 <div class="container-fluid mt-xl-n1">
     <table class="table table-border table-hover">
         <thead>
@@ -32,12 +39,15 @@
                         <a class="icon-margin" asp-action="Details" asp-route-id="@artist.Id">
                             <i class="bi bi-info-square " title="Details"></i>
                         </a>
-                        <a class="icon-margin" asp-action="Edit" asp-route-id="@artist.Id">
-                            <i class="bi bi-pencil-square" title="Edit artist"></i>
-                        </a>
-                        <a class="icon-margin" asp-action="Delete" asp-route-id="@artist.Id">
-                            <i class="bi bi-trash" title="Delete artist"></i>
-                        </a>
+                        @if (Account.isLoggedIn)
+                        {
+                            <a class="icon-margin" asp-action="Edit" asp-route-id="@artist.Id">
+                                <i class="bi bi-pencil-square" title="Edit artist"></i>
+                            </a>
+                            <a class="icon-margin" asp-action="Delete" asp-route-id="@artist.Id">
+                                <i class="bi bi-trash" title="Delete artist"></i>
+                            </a>
+                        }
 
                     </td>
 

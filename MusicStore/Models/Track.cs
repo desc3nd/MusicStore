@@ -10,13 +10,13 @@ namespace MusicStore.Models
         [Required]
         public string Title { get; set; }
 
-
         [Required]
         [Display(Name = "Artist")]
         public int ArtistId { get; set; }
 
         public Artist Artist { get; set; }
 
+        [Required]
         public int AlbumId { get; set; }
 
         [Required]
@@ -25,7 +25,7 @@ namespace MusicStore.Models
 
         public Genre Genre { get; set; }
 
-        [Required]
+        [Display(Name = "Duration time")]
         public DateTime Time { get; set; }
 
 

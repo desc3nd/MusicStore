@@ -80,12 +80,11 @@ namespace MusicStore.Services
             track.SwearWords = bool.Parse(table.Rows[0]["SwearWords"].ToString());
         }
 
-        public void AddTrack(Track track)
+        public void Create(Track track)
         {
-         
             if (track != null && CheckIfTrackInDatabase(track.Id) == 0)
             {
-                String addTrackQuery = "INSERT INTO Track (Title, AlbumId, ArtistId, GenreId, Time, SwearWords) VALUES ('" + track.Title + "','" + track.AlbumId + "','" + track.ArtistId + "','" + track.GenreId + "','" + track.Time + "','" + track.SwearWords + "');";
+                String addTrackQuery = "INSERT INTO Track (Title, AlbumId, ArtistId, GenreId, Time, SwearWords) VALUES ('" + track.Title + "','" + track.AlbumId + "','" + track.ArtistId + "','" + track.GenreId + "','" + track.Time.ToString("hh:mm:ss") + "','" + track.SwearWords + "');";
                 _connection.Open();
                 SqlCommand addTrackCommand = new SqlCommand(addTrackQuery, _connection);
                 addTrackCommand.ExecuteNonQuery();
@@ -103,7 +102,7 @@ namespace MusicStore.Services
             return numberOfTracks;
         }
 
-        public void DeleteTrack(int id)
+        public void Delete(int id)
         {
             string deleteTrackQuery = "DELETE FROM Track WHERE Id='" + id + "';";
             _connection.Open();
@@ -113,7 +112,7 @@ namespace MusicStore.Services
 
         }
 
-        public void EditTrack(Track track)
+        public void Edit(Track track)
         {
             _connection.Open();
             string updateTrackQuery = "UPDATE Track SET Title='" + track.Title + "', AlbumId=" + track.AlbumId + ", ArtistId=" + track.ArtistId + ", GenreId=" + track.GenreId + ", Time='" + track.Time + "', SwearWords='" + track.SwearWords + "' WHERE Id=" + track.Id + ";";

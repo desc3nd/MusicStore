@@ -25,18 +25,18 @@ namespace MusicStore.IServices
         /// dodaje track
         /// </summary>
         /// <param name="track"></param>
-        public void AddTrack(Track track);
+        public void Create(Track track);
 
         /// <summary>
         /// usuwa track
         /// </summary>
         /// <param name="id"></param>
-        public void DeleteTrack(int id);
+        public void Delete(int id);
 
         /// <summary>
         /// edytuje track
         /// </summary>
         /// <param name="track"></param>
-        public void EditTrack(Track track);
+        public void Edit(Track track);
     }
 }

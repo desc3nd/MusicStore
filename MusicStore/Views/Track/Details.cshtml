@@ -1,16 +1,15 @@
 ﻿@model MusicStore.Models.Track
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
 }
 
 <div class="card" role="region">
     <div class="card-header">
         <h2>
-            Add track to album @ViewBag.AlbumName
+            Edit track
         </h2>
     </div>
-    <form asp-action="Create">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -23,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Time" class="control-label label"></label>
-                        <input asp-for="Time" class="form-control" type="time"/>
+                        <input asp-for="Time" class="form-control" type="time" readonly />
                         <span asp-validation-for="Time" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check form__item">
@@ -32,15 +31,10 @@
                         </label>
                     </div>
                 </div>
-        </div>
             </div>
+        </div>
         <div class="card-footer">
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ArtistId" value="@ViewBag.Artist" />
-            <input type="hidden" value="@ViewBag.Genre" asp-for="GenreId" />
-            <input type="hidden" value="@ViewBag.Album" asp-for="AlbumId" />
-            <input type="submit" value="Save" class="btn btn-primary" line-height: 40px" />
             <a asp-action="Index" asp-controller="Album" class="btn btn-danger" line-height: 40px"> Cancel</a>
         </div>
-    </form>
+
 </div>
