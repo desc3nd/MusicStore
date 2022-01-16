@@ -1,0 +1,44 @@
+﻿@model ICollection<MusicStore.Models.Genre>
+
+<a href="/Album">Back to Albums</a>
+@if (Account.isLoggedIn)
+{
+    <div>
+        <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Genre">Add Genre</a>
+    </div>
+}
+
+<div class="container-fluid mt-xl-n1">
+    <table class="table table-border table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var genre in Model)
+            {
+                <tr class="table__row">
+                    <td>@genre.Name</td>
+                    <td>
+                        @if (Account.isLoggedIn)
+                        {
+                            <a class="icon-margin" asp-action="Edit" asp-route-id="@genre.Id">
+                                <i class="bi bi-pencil-square" title="Edit genre"></i>
+                            </a>
+                            <a class="icon-margin" asp-action="Delete" asp-route-id="@genre.Id">
+                                <i class="bi bi-trash" title="Delete genre"></i>
+                            </a>
+                        }
+
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

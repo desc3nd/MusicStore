@@ -5,13 +5,17 @@
     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchText" name="searchText" />
     <button class="btn btn-outline-primary" type="submit">Search</button>
     <div>
-        @if (Account.isLoggedIn) { 
-        <div>
-            <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
-        </div>
+        @if (Account.isLoggedIn)
+        {
+            <div>
+                <a type="button" class="btn btn-primary" asp-action="Create" asp-controller="Album">Add Album</a>
+            </div>
         }
         <div class="mt-2">
             <a type="button" class="btn btn-primary" asp-action="Index" asp-controller="Artist">Artists</a>
+        </div>
+        <div class="mt-2">
+            <a type="button" class="btn btn-primary" asp-action="Index" asp-controller="Genre">Genres</a>
         </div>
     </div>
 

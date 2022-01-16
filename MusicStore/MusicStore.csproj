@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Genre\**" />
-    <Content Remove="Views\Genre\**" />
-    <EmbeddedResource Remove="Views\Genre\**" />
-    <None Remove="Views\Genre\**" />
+    <Compile Remove="Views\Artist - kopiować\**" />
+    <Content Remove="Views\Artist - kopiować\**" />
+    <EmbeddedResource Remove="Views\Artist - kopiować\**" />
+    <None Remove="Views\Artist - kopiować\**" />
   </ItemGroup>
 
   <ItemGroup>

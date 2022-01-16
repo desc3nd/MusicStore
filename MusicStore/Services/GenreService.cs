@@ -24,7 +24,7 @@ namespace MusicStore.Services
             return genres;
         }
 
-        public Genre GetGenre(int id)
+        public Genre GetGenre(int? id)
         {
             var genre = new Genre();
             string query = "select * from Genre where Genre.Id =  " + id +";";
@@ -54,21 +54,39 @@ namespace MusicStore.Services
                 genres.Add(genre);
             }
         }
-        public void AddGenre(string genre)
+        public void Create(Genre genre)
         {
-            if (CheckIfGenreInDatabase(genre) == 0)
+            if (genre != null && CheckIfGenreInDatabase(genre.Id) == 0)
             {
-                String addGenreQuery = "INSERT INTO Genre VALUES('" + genre + "');";
+                String addGenreQuery = "INSERT INTO Genre (Name) VALUES('" + genre.Name + "');";
                 _connection.Open();
                 SqlCommand addGenreCommand = new SqlCommand(addGenreQuery, _connection);
                 addGenreCommand.ExecuteNonQuery();
                 _connection.Close();
             }
+        }
+
+        public void Delete(int id)
+        {
+            string deleteGenreQuery = "DELETE FROM Genre WHERE Id='" + id + "';";
+            _connection.Open();
+            SqlCommand deleteGenreCommand = new SqlCommand(deleteGenreQuery, _connection);
+            deleteGenreCommand.ExecuteNonQuery();
+            _connection.Close();
 
         }
-        public int CheckIfGenreInDatabase(String genre)
+        public void Edit(Genre genre)
         {
-            string queryCheckGenre = "SELECT COUNT(*) FROM Genre WHERE Genre.Name='" + genre + "';";
+            _connection.Open();
+            string updateGenreQuery = "UPDATE Genre SET Name='" + genre.Name + "' WHERE Id=" + genre.Id + ";";
+            SqlCommand commandEditGenre = new SqlCommand(updateGenreQuery, _connection);
+            commandEditGenre.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        private int CheckIfGenreInDatabase(int id)
+        {
+            string queryCheckGenre = "SELECT COUNT(*) FROM Genre WHERE Genre.Id='" + id + "';";
             _connection.Open();
             SqlCommand commandCheckGenre = new SqlCommand(queryCheckGenre, _connection);
             int numberOfGenres = (int)commandCheckGenre.ExecuteScalar();
