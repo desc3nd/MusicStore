@@ -54,7 +54,7 @@ namespace MusicStore.Services
                 album.Genre = _genreService.GetGenre(int.Parse(row["GenreId"].ToString()));
                 album.YearOfPublish = int.Parse(row["YearOfPublish"].ToString());
                 album.DateOfPublish = DateTime.Parse(row["DateOfPublish"].ToString());
-                album.Price = decimal.Parse(row["Price"].ToString());
+                album.Price = (row["Price"].ToString());
                 album.Amount = int.Parse(row["Amount"].ToString());
                 album.Description = row["Description"].ToString();
                 album.SwearWords = bool.Parse(row["SwearWords"].ToString());
