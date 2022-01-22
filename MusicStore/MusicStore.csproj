@@ -6,18 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Artist\**" />
-    <Compile Remove="Views\Genre\**" />
-    <Compile Remove="Views\Track\**" />
-    <Content Remove="Views\Artist\**" />
-    <Content Remove="Views\Genre\**" />
-    <Content Remove="Views\Track\**" />
-    <EmbeddedResource Remove="Views\Artist\**" />
-    <EmbeddedResource Remove="Views\Genre\**" />
-    <EmbeddedResource Remove="Views\Track\**" />
-    <None Remove="Views\Artist\**" />
-    <None Remove="Views\Genre\**" />
-    <None Remove="Views\Track\**" />
+    <Compile Remove="Views\Artist - kopiować\**" />
+    <Content Remove="Views\Artist - kopiować\**" />
+    <EmbeddedResource Remove="Views\Artist - kopiować\**" />
+    <None Remove="Views\Artist - kopiować\**" />
   </ItemGroup>
 
   <ItemGroup>

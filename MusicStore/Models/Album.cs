@@ -11,6 +11,7 @@ namespace MusicStore.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
         [Required]
@@ -34,9 +35,11 @@ namespace MusicStore.Models
         public DateTime DateOfPublish { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        [Display(Name = "Price")]
+        public string Price { get; set; }
 
         [Required]
+        [Display(Name = "Amount")]
         public int? Amount { get; set; }
 
         [Required]

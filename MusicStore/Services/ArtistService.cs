@@ -20,10 +20,10 @@ namespace MusicStore.Services
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
             DataTable table = new DataTable();
             adapter.Fill(table);
-            setDataToArtists(table, artists);
+            SetDataToArtists(table, artists);
             return artists;
         }
-        private void setDataToArtists(DataTable table, List<Artist> artists)
+        private void SetDataToArtists(DataTable table, List<Artist> artists)
         {
             foreach(DataRow row in table.Rows) {
             var artist = new Artist();
@@ -34,6 +34,7 @@ namespace MusicStore.Services
                 artists.Add(artist);
             }
         }
+
         public Artist GetArtist(int? id)
         {
             Artist artist = new Artist();
@@ -45,15 +46,56 @@ namespace MusicStore.Services
             {
                 throw new ArgumentNullException();
             }
-            setDataRowToArtist(table, artist);
+            SetDataRowToArtist(table, artist);
             return artist;
         }
-        private void setDataRowToArtist(DataTable table, Artist artist)
+
+        private void SetDataRowToArtist(DataTable table, Artist artist)
         {
             artist.Id = int.Parse(table.Rows[0]["Id"].ToString());
             artist.Name = table.Rows[0]["Name"].ToString();
             artist.Description = table.Rows[0]["Description"].ToString();
             artist.Country = table.Rows[0]["Country"].ToString();
         }
+
+        public void Create(Artist artist)
+        {
+            if (artist != null && CheckIfArtistInDatabase(artist.Id) == 0)
+            {
+                String addArtistQuery = "INSERT INTO Artist (Name, Country, Description) VALUES('" + artist.Name + "','" + artist.Country + "','" + artist.Description + "');";
+                _connection.Open();
+                SqlCommand addArtistCommand = new SqlCommand(addArtistQuery, _connection);
+                addArtistCommand.ExecuteNonQuery();
+                _connection.Close();
+            }
+        }
+
+        public void Delete(int id)
+        {
+            string deleteArtistQuery = "DELETE FROM Artist WHERE Id='" + id + "';";
+            _connection.Open();
+            SqlCommand deleteArtistCommand = new SqlCommand(deleteArtistQuery, _connection);
+            deleteArtistCommand.ExecuteNonQuery();
+            _connection.Close();
+
+        }
+        public void Edit(Artist artist)
+        {
+            _connection.Open();
+            string updateArtistQuery = "UPDATE Artist SET Name='" + artist.Name + "', Country='" + artist.Country + "', Description='" + artist.Description + "' WHERE Id=" + artist.Id + ";";
+            SqlCommand commandInsertBook = new SqlCommand(updateArtistQuery, _connection);
+            commandInsertBook.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        private int CheckIfArtistInDatabase(int id)
+        {
+            string queryCheckArtist = "SELECT COUNT(*) FROM Artist WHERE Artist.Id='" + id + "';";
+            _connection.Open();
+            SqlCommand commandCheckArtist = new SqlCommand(queryCheckArtist, _connection);
+            int numberOfArtists = (int)commandCheckArtist.ExecuteScalar();
+            _connection.Close();
+            return numberOfArtists;
+        }
     }
-}
+}// usunac i edytowac 

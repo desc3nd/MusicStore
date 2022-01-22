@@ -1,13 +1,19 @@
 ﻿using MusicStore.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace MusicStore.IServices
 {
     public interface IGenreService
     {
         public ICollection<Genre> GetGenres();
+
+        public Genre GetGenre(int? id);
+
+        public void Create(Genre genre);
+
+        public void Edit(Genre genre);
+
+        public void Delete(int id);
     }
 }

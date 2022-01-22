@@ -1,0 +1,40 @@
+﻿@model MusicStore.Models.Track
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="card" role="region">
+    <div class="card-header">
+        <h2>
+            Edit track
+        </h2>
+    </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h4>Details</h4>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Time" class="control-label label"></label>
+                        <input asp-for="Time" class="form-control" type="time" readonly />
+                        <span asp-validation-for="Time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check form__item">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="SwearWords" /> @Html.DisplayNameFor(model => model.SwearWords)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Index" asp-controller="Album" class="btn btn-danger" line-height: 40px"> Cancel</a>
+        </div>
+
+</div>

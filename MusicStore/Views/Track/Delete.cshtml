@@ -1,4 +1,4 @@
-﻿@model MusicStore.Models.Album
+﻿@model MusicStore.Models.Track
 
 @{
     ViewData["Title"] = "Delete";
@@ -7,10 +7,10 @@
 <div class="card" role="region">
     <div class="card-header">
         <h2>
-            Are you shure you want to delete @Model.Title? 
+            Are you shure you want to delete @Model.Title?
         </h2>
     </div>
-    <form asp-action="Delete" asp-controller="Album">
+    <form asp-action="Delete" asp-controller="Track">
         <div class="card-body">
             *Notice that this method is irreversible
         </div>

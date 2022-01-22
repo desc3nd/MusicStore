@@ -1,0 +1,34 @@
+﻿@model MusicStore.Models.Account
+<div class="card text-center mx-auto mt-sm-5 log_in_card">
+    <h2 class="card-header">
+        @{if (ViewBag.InvalidLogin != null)
+            {
+                <span>@ViewBag.InvalidLogin</span>
+            }
+            else
+            {
+                <span>Log in</span>
+            }
+        }
+    </h2>
+<form class="card-body" asp-action="Index">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Login" class="control-label label"></label>
+        <input asp-for="Login" class="form-control" />
+        <span asp-validation-for="Login" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label label"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" type="submit">Log in</button>
+        @if (!ViewBag.IsAccountInDB)
+        {
+            <a class="btn btn-primary" asp-controller="Account" asp-action="Create">Register root user</a>
+        }
+    </div>
+</form>
+</div>

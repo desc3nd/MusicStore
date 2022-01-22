@@ -15,55 +15,84 @@ namespace MusicStore.Controllers
         private readonly IAlbumService _albumService;
         private readonly IArtistService _artistService;
         private readonly IGenreService _genreService;
-        public AlbumController(IAlbumService albumService, IArtistService artistService, IGenreService genreService)
+        private readonly ITrackService _trackService;
+        public AlbumController(IAlbumService albumService, IArtistService artistService, IGenreService genreService, ITrackService trackService)
         {
             _albumService = albumService;
             _artistService = artistService;
             _genreService = genreService;
+            _trackService = trackService;
         }
         // GET: AlbumController
-        public ActionResult Index()
+        public ActionResult Index(string searchText, string option)
         {
-            var albums = _albumService.GetAlbums();
+            var albums = !string.IsNullOrEmpty(searchText) ? searchAlbums(searchText, option) : _albumService.GetAlbums();
             return View(albums);
+        }
+
+        private ICollection<Album> searchAlbums(string searchText, string option)
+        {
+            return option == "title" ? _albumService.SearchAlbumsByTitle(searchText) : _albumService.SearchAlbumsByArtist(searchText);
         }
 
         // GET: AlbumController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == album.Id).ToList();
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
         }
 
         // GET: AlbumController/Create
         public ActionResult Create()
         {
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
+            ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
+            ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             return View();
         }
 
         // POST: AlbumController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Album album)
         {
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
+            ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name");
+            ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name");
             try
             {
-                return RedirectToAction(nameof(Index));
+                _albumService.AddAlbumWithoutSpotifyAPI(album);
             }
             catch
             {
                 return View();
             }
+            return RedirectToAction(nameof(Index));
         }
+
         //edit ten odpowiada za widok, tzn jeżeli klikniemy edit to otworzy nam się zakładka z widokiem editu i za to odpowiedzialna jest ta metoda
         // GET: AlbumController/Edit/5
         public ActionResult Edit(int? id)
         {
-            if(id == null)
+            if (id == null || !Account.isLoggedIn)
             {
                 return NotFound();
             }
             //chwilowo robie to w ten sposób. Poprawnie byłoby wykorzystać tutaj metodę zwracającą pojedyńczy album, zatem: var album = _albumService.GetAlbum(id);
             var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == id).ToList();
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name", album.ArtistId);
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name", album.GenreId);
             return View(album);
@@ -74,7 +103,7 @@ namespace MusicStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Album album)
         {
-            if (id != album.Id)
+            if (id != album.Id || !Account.isLoggedIn)
             {
                 return NotFound();
             }
@@ -82,12 +111,11 @@ namespace MusicStore.Controllers
             {
                 _albumService.Edit(album);
 
-            }               
-
+            }
             catch
             {
                 return View(album);
-            }            
+            }
             return RedirectToAction(nameof(Index));
 
         }
@@ -95,22 +123,37 @@ namespace MusicStore.Controllers
         // GET: AlbumController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (!Account.isLoggedIn)
+            {
+                return NotFound();
+            }
+            var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
         }
 
         // POST: AlbumController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Album album)
         {
+            if (id != album.Id || !Account.isLoggedIn)
+            {
+                return NotFound();
+            }
             try
             {
-                return RedirectToAction(nameof(Index));
+                _albumService.DeleteAlbum(id);
             }
             catch
             {
                 return View();
             }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
