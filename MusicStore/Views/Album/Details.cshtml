@@ -78,17 +78,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                @foreach (var track in Model.Tracks)
-                                {
+                            @foreach (var track in Model.Tracks)
+                            {
+                                <tr>
                                     <td>@track.Title</td>
-                                    <td>@track.Time.ToString("hh:mm:ss")</td>
+                                    <td>@track.Time.ToString("hh:mm")</td>
                                     <td>@track.SwearWords</td>
-                                }
-                            </tr>
+                                </tr>
+                            }
                         </tbody>
                     </table>
-                    <a asp-controller="Track" asp-action="Create" asp-route-albumName="@Model.Title">Create new track</a>
                 </div>
             </div>
         </div>

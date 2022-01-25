@@ -28,17 +28,11 @@ namespace MusicStore.Services
         public ICollection<Album> GetAlbums()
         {
             ICollection<Album> albums = new List<Album>();
-            //tworze zapytanie w sqlu query
             string query = "SELECT Album.Title,Album.Id,Artist.Id as ArtistId,Genre.Id as GenreId, Album.SwearWords,Album.YearOfPublish,Album.DateOfPublish,Album.Amount,Album.Description,Album.Price FROM Album JOIN Artist ON Album.ArtistId = Artist.Id JOIN Genre ON Album.GenreId = Genre.Id;";
-            // adapter służy do wykonania komendy sqlowej
             SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
-            //tworze nowa tabele DataTable  służy do przechowywania danych tabelranych z sqla
             DataTable table = new DataTable();
-            // zasilam table nowymi danymi z sql adaptera i zwracam table
             adapter.Fill(table);
-            //przypisuje dane do modelu - w tym wypadku jest to album
             setDataRowToAlbum(table, albums);
-            //zwracam kolekcje albumów
             return albums;
         }
         private void setDataRowToAlbum(DataTable table, ICollection<Album> albums)
@@ -83,7 +77,6 @@ namespace MusicStore.Services
 
         public void DeleteAlbum(int id)
         {
-            //tu jeszcze dopisac usuwanie artystow i gatunkow jesli nie ma albumu z nimi
             string deleteAlbumQuery = "DELETE FROM Album WHERE Id='" + id + "';";
             _connection.Open();
             SqlCommand deleteAlbumCommand = new SqlCommand(deleteAlbumQuery, _connection);

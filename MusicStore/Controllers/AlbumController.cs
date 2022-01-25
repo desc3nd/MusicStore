@@ -82,7 +82,6 @@ namespace MusicStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //edit ten odpowiada za widok, tzn jeżeli klikniemy edit to otworzy nam się zakładka z widokiem editu i za to odpowiedzialna jest ta metoda
         // GET: AlbumController/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -90,14 +89,13 @@ namespace MusicStore.Controllers
             {
                 return NotFound();
             }
-            //chwilowo robie to w ten sposób. Poprawnie byłoby wykorzystać tutaj metodę zwracającą pojedyńczy album, zatem: var album = _albumService.GetAlbum(id);
             var album = _albumService.GetAlbums().FirstOrDefault(x => x.Id == id);
             album.Tracks = _trackService.GetTracks().Where(x => x.AlbumId == id).ToList();
             ViewData["Artists"] = new SelectList(_artistService.GetArtists().OrderBy(x => x.Name), "Id", "Name", album.ArtistId);
             ViewData["Genres"] = new SelectList(_genreService.GetGenres().OrderBy(x => x.Name), "Id", "Name", album.GenreId);
             return View(album);
         }
-        //ta metoda natomiast odpowiedzialna jest za zapis edytowanych danych do bazy
+
         // POST: AlbumController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
